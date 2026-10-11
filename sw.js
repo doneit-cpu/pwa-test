@@ -2,6 +2,8 @@ const V = "omniface-v1";
 const SHELL = [
   "./",
   "./index.html",
+  "./style.css",
+  "./bundle.js",
   "./manifest.webmanifest",
   "./icon.svg"
 ];
@@ -9,7 +11,7 @@ const SHELL = [
 self.addEventListener("install", (e) => {
   e.waitUntil(
     caches.open(V)
-      .then((c) => c.addAll(SHELL))
+      .then((c) => Promise.allSettled(SHELL.map((url) => c.add(url))))
       .then(() => self.skipWaiting())
   );
 });
